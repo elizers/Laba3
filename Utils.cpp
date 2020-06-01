@@ -22,15 +22,19 @@ template<typename T>
 T get_num(std::string str, std::string err, T min, T max)
 {
 	T num;
-	std::cout << str;
-	std::cin >> num;
-	get_eoln();
-	while (num < min || num > max)
-	{
-		std::cout << err;
+	std::string tmp;
+	bool check = false;
+	do {
+		std::cout << str;
 		std::cin >> num;
-		get_eoln();
-	}
+		if (std::cin.fail())
+			std::cin.clear();
+		else
+			check = (num >= min) && (num <= max);
+		getline(std::cin, tmp);
+		if (!check)
+			std::cout << err << std::endl;
+	} while (!check);
 	return num;
 }
 
