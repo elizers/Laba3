@@ -91,7 +91,7 @@ std::ostream& operator<<(std::ostream& out, const AccountStructure& record)
 		<< "Стоимость единицы выполненной работы (в рублях): " << record._cost_per_unit << std::endl
 		<< "Дата исполнения: " << record._date_of_execution
 		<< "Объём работы: " << record._scope_of_work << std::endl;
-	return out;
+	return out;	 	
 }
 
 bool check(std::string str)
@@ -130,9 +130,10 @@ AccountStructure add(AccountStructure& record)
 	record.set_type_of_work(get_string(check, "Вид работы: ", "Встречена пустая строка! Введите вид работы: "));		
 	record.set_unit(get_string(check, "Единица измерения: ", "Встречена пустая строка! Введите единицу измерения: "));
 	record.set_cost_per_unit(get_num("Стоимость единицы измерения (в рублях): ", "Ошибка! Повторите ввод: ", 0, 10000));
-	std::cout << "Дата исполнения (ДД.ММ.ГГГГ) : ";
+	std::cout << "Дата исполнения (ДД.ММ.ГГГГ): ";
 	input_date(record._date_of_execution);
-	record.set_scope_of_work(get_num("Объём работ : ", "Ошибка! Повторите ввод: ", 0.f, 10000.0f));
+	record.set_scope_of_work(get_num("Объём работ: ", "Ошибка! Повторите ввод: ", 0.f, 10000.0f));
+	std::cout << "Полная стоимость работ (в рублях): " << record._cost_per_unit * record._scope_of_work << std::endl;
 	return record;
 }
 

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <functional>
 #include <list>
+#include <numeric>
 
 // заполнение файла элементами подмножества
 template<typename T>
@@ -147,7 +148,24 @@ void Accounts<T>::fill_file_from_container(std::string filename, std::string mes
 template<typename T>
 void Accounts<T>::print_container()
 {
-	print(_list);
+	if (_list.empty())
+	{
+		std::cout << std::endl << "Данный контейнер пуст!" << std::endl;
+	}
+	else
+	{
+		std::ostream_iterator<T> ositer(std::cout);
+		std::cout << std::endl << "Данный контейнер содержит следующие элементы:" << std::endl;
+		std::for_each(_list.begin(), _list.end(), [&ositer](const T& elem)
+		{
+			*ositer++ = elem;
+			std::cout << "Полная стоимость работы: " << elem.get_cost_per_unit() * elem.get_scope_of_work() << std::endl;
+			std::cout << std::endl;
+		});
+		std::cout << "Итоговая стоимость всех работ: " <<
+			std::accumulate(_list.begin(), _list.end(), 0.0f, [](float number, const T& elem)
+		{ return  number + elem.get_cost_per_unit() * elem.get_scope_of_work(); }) << std::endl;
+	}
 }
 
 template<typename T>
@@ -172,7 +190,7 @@ std::list<T> Accounts<T>::binary_search_elements(const T& value, std::function<b
 	result.insert(result.begin(), std::lower_bound(_list.begin(), _list.end(), value, compare), std::upper_bound(_list.begin(), _list.end(), value, compare));
 	return result;
 }
-
+ 
 template<typename T>
 void fill_file(const std::list<T>& list, std::string filename, std::string message)
 {
@@ -190,17 +208,9 @@ void fill_file(const std::list<T>& list, std::string filename, std::string messa
 	}
 }
 
+// delete
 template<typename T>
 void print(const std::list<T>& list)
 {
-	if (list.empty())
-	{
-		std::cout << std::endl << "Данный контейнер пуст!" << std::endl;
-	}
-	else
-	{
-		std::ostream_iterator<T> ositer(std::cout, "\n");
-		std::cout << std::endl << "Данный контейнер содержит следующие элементы:" << std::endl;
-		copy(list.begin(), list.end(), ositer);
-	}
+	
 }
